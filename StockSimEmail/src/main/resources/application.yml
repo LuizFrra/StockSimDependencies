@@ -1,5 +1,7 @@
 my.rabbitmq.container.name: stockSim_rabbitmq
 my.serverregistry.container.name: stockSimServerRegistry
+my.serverregistry.container.port: 8100
+
 
 spring:
   application:
@@ -41,4 +43,4 @@ eureka:
     preferIpAddress: true
   client:
     serviceUrl:
-      defaultZone: http://${my.serverregistry.container.name}:8100/eureka/
+      defaultZone: http://${my.serverregistry.container.name}:${my.serverregistry.container.port}/eureka/
