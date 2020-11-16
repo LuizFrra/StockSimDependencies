@@ -1,4 +1,4 @@
-// MAVEN BUILD
+# MAVEN BUILD
 
 FROM maven:3.6.3-jdk-8 as maven
 
@@ -16,7 +16,7 @@ RUN chmod +x mvnw
 
 RUN ./mvnw package
 
-// JAVA RUN
+# JAVA RUN
 
 FROM openjdk:8-jdk-alpine
 
