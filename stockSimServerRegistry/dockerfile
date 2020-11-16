@@ -1,0 +1,27 @@
+// MAVEN BUILD
+
+FROM maven:3.6.3-jdk-8 as maven
+
+COPY ./pom.xml ./pom.xml
+
+RUN mvn dependency:go-offline -B
+
+FROM openjdk:8-jdk-alpine
+
+WORKDIR /server-registry-build
+
+COPY . /server-registry-build
+
+RUN chmod +x mvnw
+
+RUN ./mvnw package
+
+// JAVA RUN
+
+FROM openjdk:8-jdk-alpine
+
+WORKDIR /server-registry
+
+COPY --from=maven /server-registry-build/target/*.jar ./
+
+ENTRYPOINT [ "java", "-jar", "/server-registry/app.jar" ]
