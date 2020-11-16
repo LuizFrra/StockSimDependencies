@@ -18,7 +18,7 @@ FROM openjdk:8-jdk-alpine
 
 ENV my.rabbitmq.container.name stockSim_rabbitmq
 ENV my.serverregistry.container.name stockSimServerRegistry
-ENV my.serverregistry.container.port 8100
+ENV my.serverregistry.container.port 80
 
 WORKDIR /stockSim-mail
 
