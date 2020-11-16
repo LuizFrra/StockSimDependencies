@@ -39,6 +39,11 @@ public class RegisterEventListenerProviderFactory implements EventListenerProvid
         }
 
         if(registerEventListenerProvider == null) {
+            try {
+                channel.queueDeclare("stockSim", true, false, false, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             registerEventListenerProvider = new RegisterEventListenerProvider(channel);
         }
 
