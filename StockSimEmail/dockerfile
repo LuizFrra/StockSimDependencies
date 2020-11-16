@@ -1,0 +1,28 @@
+# MAVEN BUILD
+
+FROM maven:3.6.3-jdk-8 as maven
+
+COPY ./pom.xml ./pom.xml
+
+RUN mvn dependency:go-offline
+
+WORKDIR /stockSim-mail-build
+
+COPY . /stockSim-mail-build
+
+RUN mvn package
+
+# JAVA RUN
+
+FROM openjdk:8-jdk-alpine
+
+ENV my.rabbitmq.container.name stockSim_rabbitmq
+ENV my.serverregistry.container.name stockSimServerRegistry
+
+WORKDIR /stockSim-mail
+
+COPY --from=maven /stockSim-mail-build/target/*.jar /stockSim-mail/app.jar
+
+EXPOSE 80
+
+ENTRYPOINT [ "java", "-jar", "/stockSim-mail/app.jar" ]
