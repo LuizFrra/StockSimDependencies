@@ -24,6 +24,6 @@ public class EmailService {
 
     public void sendSimpleMessage(Message message) throws JsonProcessingException {
         message.setId();
-        rabbitTemplate.convertAndSend("email", "exch.email.*", objectMapper.writeValueAsBytes(message));
+        rabbitTemplate.convertAndSend("stocksim.email", "", objectMapper.writeValueAsBytes(message));
     }
 }
