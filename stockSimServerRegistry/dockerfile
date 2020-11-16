@@ -10,9 +10,7 @@ WORKDIR /server-registry-build
 
 COPY . /server-registry-build
 
-RUN chmod +x mvnw
-
-RUN ./mvnw package
+RUN mvn package
 
 # JAVA RUN
 
@@ -20,7 +18,7 @@ FROM openjdk:8-jdk-alpine
 
 WORKDIR /server-registry
 
-COPY --from=maven /server-registry-build/target/*.jar ./
+COPY --from=maven /server-registry-build/target/*.jar /server-registry/app.jar
 
 EXPOSE 80
 
