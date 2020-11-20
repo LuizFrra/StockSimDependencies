@@ -11,6 +11,7 @@ import org.keycloak.models.KeycloakSessionFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Logger;
 
 public class RegisterEventListenerProviderFactory implements EventListenerProviderFactory {
 
@@ -18,14 +19,26 @@ public class RegisterEventListenerProviderFactory implements EventListenerProvid
     static Connection connection;
     static Channel channel;
     static RegisterEventListenerProvider registerEventListenerProvider;
-
+    static Logger logger = Logger.getLogger("RegisterEventListenerProvider");
 
     @Override
     public EventListenerProvider create(KeycloakSession keycloakSession) {
 
-        factory.setUsername("guest");
-        factory.setPassword("guest");
-        factory.setHost("rabbitmq");
+        String host = System.getenv("RABBITMQ.HOST");
+        String userName = System.getenv("RABBITMQ.USER");
+        String password = System.getenv("RABBITMQ.PASSWORD");
+
+        logger.info("Getting RabbitMQ Env Variables ...");
+
+        logger.info("Host Value : " + host);
+        logger.info("UserName Value : " + userName);
+        logger.info("Password Value : " + password);
+
+        factory.setUsername(userName != null ? userName : "guest");
+        factory.setPassword(password != null ? password : "guest");
+        factory.setHost(host != null ? host : "rabbitmq");
+
+        logger.info("Finishing Load Env Variables RabbitMQ.");
 
         try {
 
